@@ -1,0 +1,110 @@
+Login.java 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.http.HttpClient;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+public class LoginServlet extends HttpServlet {
+	
+	 @Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		PrintWriter out= resp.getWriter();
+		
+		String s= req.getParameter("name");
+		String p=req.getParameter("pass");
+		
+		Validate val= new Validate();
+		
+		if(val.validate(s, p))
+				{
+			       RequestDispatcher rd= req.getRequestDispatcher("Dashboard");
+			       rd.forward(req, resp);
+			       
+				}
+		else
+		{
+			RequestDispatcher reqd = req.getRequestDispatcher("New.html");
+			reqd.include(req,resp);
+			
+		}
+		
+		
+		
+	}
+
+}
+
+
+Dashboard.java
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+public class Dashboard extends HttpServlet{
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		PrintWriter out = resp.getWriter();
+		 
+		String s= req.getParameter("name");
+		 out.println(s+ "  you are amazing");
+	}
+
+}
+
+
+Validate.java
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class Validate {
+
+	public boolean validate(String user, String pass) {
+		boolean flag = false;
+
+		String dbname = "jdbc:postgresql://localhost:5432/login";
+		String dbdriver = "org.postgresql.Driver";
+		String username = "postgres";
+		String password = "felcipass";
+
+		try {
+
+			Class.forName(dbdriver);
+
+			Connection con = DriverManager.getConnection(dbname, username, password);
+
+			Statement st = con.createStatement();
+
+			String sql = "select * from login";
+
+			ResultSet rs = st.executeQuery(sql);
+
+			while (rs.next()) {
+				if (user.equals(rs.getString("name")) && pass.equals(rs.getString("pass"))) {
+					flag = true;
+				}
+			}
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return flag;
+	}
+
+}
