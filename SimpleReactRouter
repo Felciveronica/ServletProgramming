@@ -1,0 +1,44 @@
+App/js
+
+import logo from './logo.svg';
+import './App.css';
+import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
+import About from './About';
+function App() {
+  return (
+    <div className="App">
+      <Router>
+        <div>
+          <nav>
+            <ul>
+              <li ><Link to="/">Home</Link></li>
+              <li ><Link to="/about">About</Link> </li>
+              <li ><Link to="/contact">Contact</Link></li>
+            </ul>
+          </nav>
+        </div>
+
+        <div>
+        <Routes>
+        <Route path='/about' element= {<About/>}>
+          
+        </Route>
+        <Route path='/contact' element={<Contact/>}>
+  
+        </Route>
+        <Route path='/' element={<Home/>}>
+
+        </Route>
+      </Routes>
+</div>
+
+      </Router>
+
+      
+
+    </div>
+
+  );
+}
+
+export default App;
