@@ -1,0 +1,65 @@
+import logo from './logo.svg';
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Form from 'react-bootstrap/Form';
+import { Button } from 'react-bootstrap';
+import {useState} from "react";
+
+
+function App() {
+
+   const[form,setForm]= useState({});
+   const[errors,setError]= useState({});
+   const newErrors={};
+
+   const validate=(field,value)=>
+   {
+      setForm({
+        ...form, [field]:value
+      })
+   }
+
+   const handlesub=(e)=>
+   {
+    e.preventDefault();
+    const {name}=form;
+  
+    if( !name || name==' ') newErrors.name='cannot be blank';
+    else if(name.length >10) newErrors.name='should no be more than 10';
+
+   
+
+   if(Object.keys(newErrors).length>0) setError(newErrors);
+   else{
+alert("thank yoi")
+    setError({});}
+  
+   }
+  return (
+    <div className="App d-flex flex-column align-items-center justify-content-center" style={{width:'100%'}}>
+      <Form style={{width:'300px'}}>
+       <Form.Group >
+        <Form.Label className="form" ></Form.Label>
+        <Form.Control type="text" placeholder="Enter your name" onChange={e=>{validate('name',e.target.value)}} isInvalid={!!errors.name} ></Form.Control>
+          <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
+       </Form.Group>
+       
+
+       <Form.Group >
+        <Form.Label>  Select year</Form.Label>
+        <Form.Control as="select">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          
+        </Form.Control>
+       </Form.Group>
+
+       <Button type='submit' onClick={handlesub}>Submit</Button>
+       </Form>
+    </div>
+  );
+}
+
+export default App;
