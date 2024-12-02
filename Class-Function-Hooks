@@ -1,0 +1,57 @@
+Action.js    -------- Class Component
+
+import React from 'react';
+import {useState} from 'react';
+
+class Action extends React.Component {
+    
+    state={buttonact:""};
+
+    onAdd=()=>
+    {
+      this.setState({buttonact:"add but is press"});
+      console.log(this.state.buttonact);
+    }
+
+    onUpdate=()=>
+    {
+        this.setState({buttonact:'update but is pressed'});
+    }
+
+    render()
+    {
+        return(
+            <div>
+                <p>{this.state.buttonact}</p>
+                <button onClick={this.onAdd}> add butt
+
+                </button>
+                <button onClick={this.onUpdate}> update butt
+
+                </button>
+            </div>
+        )
+    }
+
+}
+
+export default Action;
+
+
+FunAction.js ---------Function Component
+
+import React from 'react';
+import {useState} from'react';
+
+const FunAction=()=>
+{  
+    const [count, setCount] = useState(0);
+  return(
+         <div>
+              <button onClick={()=>setCount(count+1)}>{count}</button>
+         </div>
+  );
+}
+
+export default FunAction;
+
